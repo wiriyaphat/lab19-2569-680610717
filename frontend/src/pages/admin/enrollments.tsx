@@ -134,6 +134,10 @@ export default function AdminEnrollmentsPage() {
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-semibold">จัดการการลงทะเบียน</h1>
+        <p className="text-sm text-muted-foreground">
+          Admin ลงทะเบียนให้นักศึกษาได้ทุกคน (ยกเลิกการลงทะเบียนต้องรอ DELETE
+          API ฝั่ง Backend)
+        </p>
       </div>
 
       <Dialog
@@ -194,7 +198,6 @@ export default function AdminEnrollmentsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
       <Tabs
         value={mode}
         onValueChange={(v) => setMode(v as "course" | "student")}
@@ -220,7 +223,6 @@ export default function AdminEnrollmentsPage() {
           />
         </TabsContent>
       </Tabs>
-
       <div className="rounded-lg border">
         <Table>
           <TableHeader>
