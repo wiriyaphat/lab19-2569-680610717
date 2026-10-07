@@ -2,8 +2,11 @@ import axios, { AxiosError, type Method } from "axios";
 
 import { useAuthStore } from "@/lib/auth-store";
 
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim().replace(/\/+$/, "");
+
 export const API_URL =
-  import.meta.env.VITE_API_URL ?? "http://localhost:3000/api/v3";
+  configuredApiUrl ||
+  (import.meta.env.DEV ? "http://localhost:3000/api/v3" : "");
 
 export class ApiError extends Error {
   status: number;
@@ -42,6 +45,13 @@ export async function api<T>(
   options: { method?: Method; body?: unknown; auth?: boolean } = {},
 ): Promise<T> {
   const { method = "GET", body, auth = true } = options;
+
+  if (!API_URL) {
+    throw new ApiError(
+      0,
+      "ยังไม่ได้ตั้งค่า VITE_API_URL สำหรับ Frontend ที่ Deploy",
+    );
+  }
 
   try {
     const res = await http.request<ApiResponse<T>>({
